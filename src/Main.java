@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Main {
 
-
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
 
         ArrayList<PlainData> dataInputList = new ArrayList<PlainData>();
@@ -18,13 +18,6 @@ public class Main {
             scanner.useDelimiter("\t");
             scanner.nextLine();
             while(scanner.hasNextLine()) {
-//                int id = scanner.nextInt();
-//                scanner.skip(scanner.delimiter());
-//                String name = scanner.next();
-//                scanner.skip(scanner.delimiter());
-//                String surname = scanner.next();
-//                scanner.skip(scanner.delimiter());
-//                String phonenumber = scanner.nextLine();
                 String input = scanner.nextLine();
                 String[] dataRead = input.split("\t");
                 int id = Integer.parseInt(dataRead[0]);
@@ -45,8 +38,9 @@ public class Main {
             System.out.println(d);
         }
 
-
-        try (BufferedWriter cypheredFile = new BufferedWriter(new FileWriter("cyphered.txt"))){
+        try (BufferedWriter cypheredFile = new BufferedWriter(new FileWriter("cyphered.txt")))
+        {
+            cypheredFile.write("ID" + "\t" + "NAME" + "\t" + "SURNAME" + "\t" + "PHONE_NUMBER"+ "\n");
             for (PlainData plainData : dataInputList){
                 cypheredFile.write(plainData.getId() + "\t" + plainData.getName() + "\t" + plainData.getSurname() + "\t" + plainData.getPhonenumber() + "\n");
             }
@@ -54,9 +48,6 @@ public class Main {
            e.printStackTrace();
         }
 
-
     }
-
-
 
 }

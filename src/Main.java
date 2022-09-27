@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -48,8 +45,11 @@ public class Main {
             System.out.println(d);
         }
 
-        try (FileWriter cypheredFile = new FileWriter("cyphered.txt")){
 
+        try (BufferedWriter cypheredFile = new BufferedWriter(new FileWriter("cyphered.txt"))){
+            for (PlainData plainData : dataInputList){
+                cypheredFile.write(plainData.getId() + "\t" + plainData.getName() + "\t" + plainData.getSurname() + "\t" + plainData.getPhonenumber() + "\n");
+            }
         } catch (IOException e) {
            e.printStackTrace();
         }

@@ -26,4 +26,9 @@ public class PlainData {
     public String getPhonenumber() {
         return phonenumber;
     }
+
+    @Override
+    public String toString() {
+        return (this.getId()+ " " + this.getName() + " " + this.getSurname() + " " + this.getPhonenumber());
+    }
 }

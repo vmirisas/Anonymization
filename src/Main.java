@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -7,43 +8,72 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
-
-
         ArrayList<String> dataFields = new ArrayList<>();
-        ArrayList<PlainData> dataInputList = new ArrayList<PlainData>();
+        ArrayList<String> dataValues = new ArrayList<>();
 
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Choose the data file for encryption");
         String fileLocation = scanner.nextLine();
 
         try {
             scanner = new Scanner(new BufferedReader(new FileReader(fileLocation)));
-            //scanner.useDelimiter("\t");
             String fields = scanner.nextLine();
             String[] fieldsToSeparate = fields.split("\t");
             for (String field : fieldsToSeparate) {
                 dataFields.add(field);
             }
+
             while(scanner.hasNextLine()) {
                 String input = scanner.nextLine();
-                String[] dataRead = input.split("\t");
-                String id = dataRead[0];
-                String name = dataRead[1];
-                String surname = dataRead[2];
-                String phonenumber = dataRead[3];
-                dataInputList.add(new PlainData(id, name, surname, phonenumber));
-                System.out.println("Imported id:" + id + ", name:" + name + ", surname:" + surname + ", phone number:" + phonenumber);
+                String[] dataValuesString = input.split("\t");
+                for(String dataValue : dataValuesString){
+                    dataValues.add(dataValue);
+                }
             }
-            scanner.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        HashMap<String, String[]> dataInputListMap = new HashMap<>();
-        for(String data : dataInputList.size()){
+        int counter = dataFields.size();
 
+        //=========================  creating and populating the column arrays with their data  ========================
+
+        ArrayList<String> idArray = new ArrayList<>();
+        for (int i = dataFields.size()-counter; i < dataValues.size(); i+=dataFields.size()) {
+            idArray.add(dataValues.get(i));
         }
+        counter = counter - 1;
+
+        ArrayList<String> nameArray = new ArrayList<>();
+        for (int i = dataFields.size()-counter; i < dataValues.size(); i+=dataFields.size()) {
+            nameArray.add(dataValues.get(i));
+        }
+        counter = counter - 1;
+
+        ArrayList<String> surnameArray = new ArrayList<>();
+        for (int i = dataFields.size()-counter; i < dataValues.size(); i+=dataFields.size()) {
+            surnameArray.add(dataValues.get(i));
+        }
+        counter = counter - 1;
+
+        ArrayList<String> phoneNumberArray = new ArrayList<>();
+        for (int i = dataFields.size()-counter; i < dataValues.size(); i+=dataFields.size()) {
+            phoneNumberArray.add(dataValues.get(i));
+        }
+
+        HashMap<String, String[]> idColumn = new HashMap<>();
+        idColumn.put(dataFields.get(0), idArray.toArray(new String[0]));
+
+        HashMap<String, String[]> nameColumn = new HashMap<>();
+        nameColumn.put(dataFields.get(1), nameArray.toArray(new String[0]));
+
+        HashMap<String, String[]> surnameColumn = new HashMap<>();
+        surnameColumn.put(dataFields.get(2), surnameArray.toArray(new String[0]));
+
+        HashMap<String, String[]> phoneNumberColumn = new HashMap<>();
+        phoneNumberColumn.put(dataFields.get(3), phoneNumberArray.toArray(new String[0]));
+
 
         System.out.println("Choose the configuration file");
 //        String configureFileLocation = scanner.nextLine();
@@ -55,7 +85,6 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        //Get the fields that need to get encrypted, put them in the configuredFields ArrayList
         ArrayList<String> configuredFields = new ArrayList<>();
         try {
             Scanner configurationReader = new Scanner(new BufferedReader(new FileReader(configureFileLocation)));
@@ -68,54 +97,37 @@ public class Main {
             e.printStackTrace();
         }
 
-        //Find the indexes with the same field value between dataFields and configuredFields ArrayLists
-        ArrayList<Integer> sameIndex = new ArrayList<>();
-        for (String dataField : dataFields){
-            for (String configuredField : configuredFields) {
-                if (dataField.equals(configuredField)){
-                    sameIndex.add(dataFields.indexOf(dataField));
-                }
-            }
-        }
-
         //Write the encrypted values to a .txt file
         try (BufferedWriter cypheredFile = new BufferedWriter(new FileWriter("cyphered.txt")))
         {
-//            for (int i = 0; i <= dataInputList.size(); i++){
-//
-//            }
             cypheredFile.write("ID" + "\t" + "NAME" + "\t" + "SURNAME" + "\t" + "PHONE_NUMBER"+ "\n");
-            for (PlainData plainData : dataInputList){
-                cypheredFile.write(plainData.getId() + "\t" + plainData.getName() + "\t" + plainData.getSurname() + "\t" + plainData.getPhonenumber() + "\n");
+            for (int i = 0; i < dataValues.size()/ dataFields.size(); i++){
+                cypheredFile.write(Arrays.toString(idColumn.get(i)) + "\t" + Arrays.toString(nameColumn.get(i)) + "\t" + Arrays.toString(surnameColumn.get(i)) + "\t" + Arrays.toString(phoneNumberColumn.get(i)) + "\n");
             }
         } catch (IOException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
 
-        //printing the columns that can be encrypted
-//        for (String dataField : dataFields) {
-//            System.out.println(dataField);
-//        }
-//        System.out.println(dataFields.size());
+
+        System.out.println(Arrays.toString(idColumn.get("id")));
+        System.out.println(Arrays.toString(nameColumn.get("name")));
+        System.out.println(Arrays.toString(surnameColumn.get("surname")));
+        System.out.println(Arrays.toString(phoneNumberColumn.get("phonenumber")));
 //        System.out.println(dataFields);
+//        System.out.println(dataFields.size());
 //
-//        System.out.println(configuredFields);
-//        System.out.println(configuredFields.size());
+//        System.out.println(dataValues);
+//        System.out.println(dataValues.size());
 //
-//        System.out.println(sameIndex);
-
-//        System.out.println(dataInputList.size());
-//        for (PlainData data : dataInputList) {
-//            System.out.println(data);
-//        }
-
-        System.out.println(dataInputList);
+//        System.out.println(idArray);
+//        System.out.println(idArray.size());
+//
+//        System.out.println(nameArray);
+//        System.out.println(surnameArray);
+//        System.out.println(phoneNumberArray);
 
 
-//        System.out.println(fieldsIndexes.size());
-//        for (int fieldIndex : fieldsIndexes) {
-//            System.out.println(fieldIndex);
-//        }
+
 
     }
 

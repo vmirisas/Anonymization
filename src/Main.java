@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
@@ -12,12 +13,13 @@ public class Main {
         ArrayList<String> dataFields = new ArrayList<>();
         ArrayList<PlainData> dataInputList = new ArrayList<PlainData>();
 
+
         System.out.println("Choose the data file for encryption");
         String fileLocation = scanner.nextLine();
 
         try {
             scanner = new Scanner(new BufferedReader(new FileReader(fileLocation)));
-            scanner.useDelimiter("\t");
+            //scanner.useDelimiter("\t");
             String fields = scanner.nextLine();
             String[] fieldsToSeparate = fields.split("\t");
             for (String field : fieldsToSeparate) {
@@ -38,9 +40,9 @@ public class Main {
             e.printStackTrace();
         }
 
-        System.out.println(dataInputList.size());
-        for (PlainData data : dataInputList) {
-            System.out.println(data);
+        HashMap<String, String[]> dataInputListMap = new HashMap<>();
+        for(String data : dataInputList.size()){
+
         }
 
         System.out.println("Choose the configuration file");
@@ -53,32 +55,35 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-
-
-//        try (BufferedReader configurationReader = new BufferedReader(new FileReader(configFileLocation))) {
-//            //configuredFields.add(configurationReader.readLine().split("\t"));
-//            configurationReader.
-//            String configurableFields = configurationReader.readLine();
-//            configuredFields.add(configurableFields.split("\t"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
+        //Get the fields that need to get encrypted, put them in the configuredFields ArrayList
         ArrayList<String> configuredFields = new ArrayList<>();
         try {
             Scanner configurationReader = new Scanner(new BufferedReader(new FileReader(configureFileLocation)));
-
-            String configurableField = configurationReader.next();
-            configuredFields.add(configurableField);
+            String fieldsToConfigureString = configurationReader.nextLine();
+            String[] fieldsToSeparateFromConfigureFile = fieldsToConfigureString.split("\t");
+            for (String field : fieldsToSeparateFromConfigureFile) {
+                configuredFields.add(field);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        //Find the indexes with the same field value between dataFields and configuredFields ArrayLists
+        ArrayList<Integer> sameIndex = new ArrayList<>();
+        for (String dataField : dataFields){
+            for (String configuredField : configuredFields) {
+                if (dataField.equals(configuredField)){
+                    sameIndex.add(dataFields.indexOf(dataField));
+                }
+            }
+        }
 
-
-
+        //Write the encrypted values to a .txt file
         try (BufferedWriter cypheredFile = new BufferedWriter(new FileWriter("cyphered.txt")))
         {
+//            for (int i = 0; i <= dataInputList.size(); i++){
+//
+//            }
             cypheredFile.write("ID" + "\t" + "NAME" + "\t" + "SURNAME" + "\t" + "PHONE_NUMBER"+ "\n");
             for (PlainData plainData : dataInputList){
                 cypheredFile.write(plainData.getId() + "\t" + plainData.getName() + "\t" + plainData.getSurname() + "\t" + plainData.getPhonenumber() + "\n");
@@ -88,16 +93,24 @@ public class Main {
         }
 
         //printing the columns that can be encrypted
-        for (String dataField : dataFields) {
-            System.out.println(dataField);
-        }
-        System.out.println(dataFields.size());
-        System.out.println(dataFields);
+//        for (String dataField : dataFields) {
+//            System.out.println(dataField);
+//        }
+//        System.out.println(dataFields.size());
+//        System.out.println(dataFields);
+//
+//        System.out.println(configuredFields);
+//        System.out.println(configuredFields.size());
+//
+//        System.out.println(sameIndex);
 
-        for (String configuredField : configuredFields) {
-            System.out.println(configuredField);
-        }
-        System.out.println(configuredFields.size());
+//        System.out.println(dataInputList.size());
+//        for (PlainData data : dataInputList) {
+//            System.out.println(data);
+//        }
+
+        System.out.println(dataInputList);
+
 
 //        System.out.println(fieldsIndexes.size());
 //        for (int fieldIndex : fieldsIndexes) {

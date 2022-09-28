@@ -1,17 +1,17 @@
 public class PlainData {
-    private int id;
+    private String id;
     private String name;
     private String surname;
     private String phonenumber;
 
-    public PlainData(int id, String name, String surname, String phonenumber) {
+    public PlainData(String id, String name, String surname, String phonenumber) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.phonenumber = phonenumber;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

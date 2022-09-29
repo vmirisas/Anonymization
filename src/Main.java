@@ -73,6 +73,25 @@ public class Main {
         sameFieldIndexArray = SameFieldIndex(dataFields,configuredFields);
         System.out.println(sameFieldIndexArray);
 
+        //encrypt the data
+//        String[][] dataEncryptedValuesMatrix = new String[columns][rows];
+        final String secretKey = "1234567891234567";
+//        int counter2 = 0;
+//        for(int i = 0; i < columns; i++){
+//            for (int j = 0; j < rows; j++){
+//                if(sameFieldIndexArray.get(counter2) == i){
+//                    dataEncryptedValuesMatrix[i][j] =  AESEncryptor.encrypt(dataValuesMatrix[i][j], secretKey) ;
+//                } else {
+//                    dataEncryptedValuesMatrix[i][j] = dataValuesMatrix[i][j];
+//                }
+//                counter2++;
+//            }
+//        }
+
+        String smth = "Vasilis";
+        //String enc = AESEncryptor.encrypt(smth,secretKey);
+        //System.out.println(enc);
+
         //Write the encrypted values to a .txt file
         try (BufferedWriter cypheredFile = new BufferedWriter(new FileWriter("cyphered.txt")))
         {
@@ -90,8 +109,6 @@ public class Main {
                 System.out.println("arr[" + i + "][" + j + "] = "+ dataValuesMatrix[i][j]);
             }
         }
-
-
     }
 
     public static ArrayList<Integer> SameFieldIndex(ArrayList dataFields, ArrayList configuredFields){

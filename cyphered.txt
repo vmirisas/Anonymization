@@ -1,6 +1,1 @@
 ID	NAME	SURNAME	PHONE_NUMBER
-null	null	null	null
-null	null	null	null
-null	null	null	null
-null	null	null	null
-null	null	null	null
